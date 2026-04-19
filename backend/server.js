@@ -23,7 +23,7 @@ const ChatSchema = new mongoose.Schema({
 const Chat = mongoose.model("Chat", ChatSchema);
 
 // Route
-app.post('/ask', async (req, res) => {
+app.post('/api/chat', async (req, res) => {
   const { question } = req.body;
 
   try {
