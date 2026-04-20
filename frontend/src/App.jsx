@@ -11,6 +11,7 @@ function App() {
 
     const userMessage = input;
 
+    // Add user message
     setMessages((prev) => [
       ...prev,
       { type: "user", text: userMessage },
@@ -32,6 +33,11 @@ function App() {
 
       const data = await res.json();
 
+      if (!res.ok) {
+        throw new Error(data.error || "Server error");
+      }
+
+      // Add AI response
       setMessages((prev) => [
         ...prev,
         { type: "ai", text: data.reply || "No response from AI" },
