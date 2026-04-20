@@ -11,6 +11,7 @@ function App() {
 
     const userMessage = input;
 
+    // Add user message
     setMessages((prev) => [
       ...prev,
       { type: "user", text: userMessage },
@@ -20,7 +21,7 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await fetch("https://cognitia-ai-project.vercel.app/api/chat", {
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,10 +33,12 @@ function App() {
 
       const data = await res.json();
 
+      // IMPORTANT: handle API errors properly
       if (!res.ok) {
         throw new Error(data.error || "Server error");
       }
 
+      // Add AI response
       setMessages((prev) => [
         ...prev,
         { type: "ai", text: data.reply || "No response from AI" },
