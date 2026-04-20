@@ -23,11 +23,10 @@ const ChatSchema = new mongoose.Schema({
 const Chat = mongoose.model("Chat", ChatSchema);
 
 // Route
-app.post('/ask', async (req, res) => {
+app.post('/api/chat', async (req, res) => {
   const { question } = req.body;
 
   try {
-    // Call Groq API
     const response = await axios.post(
       "https://api.groq.com/openai/v1/chat/completions",
       {
@@ -36,7 +35,7 @@ app.post('/ask', async (req, res) => {
       },
       {
         headers: {
-          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+          Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
           "Content-Type": "application/json"
         }
       }
@@ -44,7 +43,6 @@ app.post('/ask', async (req, res) => {
 
     const answer = response.data.choices[0].message.content;
 
-    // Save to DB
     const newChat = new Chat({ question, answer });
     await newChat.save();
 
@@ -55,5 +53,4 @@ app.post('/ask', async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 });
-
-app.listen(5000, () => console.log("Server running on port 5000"));
+module.exports = app;
