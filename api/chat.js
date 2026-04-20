@@ -3,7 +3,7 @@ export default function handler(req, res) {
     const { message } = req.body;
 
     return res.status(200).json({
-      reply: "Working 🚀 You said: " + message,
+      reply: "Working 🚀 " + message,
     });
   }
 
