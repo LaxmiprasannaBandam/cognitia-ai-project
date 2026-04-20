@@ -1,11 +1,17 @@
 export default function handler(req, res) {
-  if (req.method === "POST") {
-    const { message } = req.body;
+  try {
+    if (req.method !== "POST") {
+      return res.status(405).json({ error: "Only POST allowed" });
+    }
+
+    const { message } = req.body || {};
 
     return res.status(200).json({
       reply: "Working 🚀 " + message,
     });
+  } catch (error) {
+    return res.status(500).json({
+      error: "Server error",
+    });
   }
-
-  res.status(405).json({ error: "Only POST allowed" });
 }
