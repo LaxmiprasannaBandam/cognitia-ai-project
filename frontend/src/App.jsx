@@ -20,13 +20,13 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await fetch("https://cognitia-ai-project-4vk1.vercel.app/api/chat", {
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          question: userMessage,
+          message: userMessage,
         }),
       });
 
@@ -34,7 +34,7 @@ function App() {
 
       setMessages((prev) => [
         ...prev,
-        { type: "ai", text: data.answer || "No response from AI" },
+        { type: "ai", text: data.reply || "No response from AI" },
       ]);
     } catch (error) {
       setMessages((prev) => [
@@ -54,11 +54,7 @@ function App() {
         {messages.map((msg, i) => (
           <div
             key={i}
-            style={
-              msg.type === "user"
-                ? styles.userMsg
-                : styles.aiMsg
-            }
+            style={msg.type === "user" ? styles.userMsg : styles.aiMsg}
           >
             {msg.text}
           </div>
